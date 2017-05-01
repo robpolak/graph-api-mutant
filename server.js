@@ -23,37 +23,15 @@ app.use(busboy({
 
 app.use(bodyParser.json({limit: '10mb'}));
 app.use(bodyParser.urlencoded({limit: '10mb', extended: true}));
-
-//JADE
-app.set('view engine', 'jade');
-app.set('views', path.join(__dirname, 'views'));
-
-//EXPRESS
-app.use(express.static(path.join(__dirname, 'public')));
-app.use('/app', express.static(path.join(__dirname, 'app')));
-
 app.use(cookieParser());
 
-//Get User
-var userModule = require('./src/expressModules/userModule');
-app.use(userModule);
-
-// Loggly
-if (global._config.logging.requestLoggingEnabled) {
-  app.use(global._logger.requestLogger);
-}
-
-
 //API
-require('./api/api')(app);
+var api = require('./api/api');
+api.initApi(function(err, data) {
+  console.log()
+});
 
-//Routes
-app.use('/', require('./routes/public_routes'));
-app.use('/', require('./routes/workspace_routes'));
 
-if (global._config.logging.responseLoggingEnabled) {
-  app.use(global._logger.responseLogger);
-}
 //Express exception handler
 app.use(function errorHandler(err, req, res, next) {
   req || (req = {});
@@ -72,20 +50,20 @@ app.use(function errorHandler(err, req, res, next) {
 //no routes below this
 app.get('*', function defaultRoute(req, res) {
   global._logger.logTrace('404 Not Found', req.originalUrl);
-  res.redirect(302, '/#/Error/NotFound');
+  res.send(404, {error:'notFound'});
   res.end();
 });
 
 //Still seem to need this in some cases
 process.on('uncaughtException', function (err) {
-  global._logger.logError("Uncaught Exception", err);
-  if (err && err.stack)
+  if (err && err.stack) {
     console.trace(err.stack);
+  }
 });
 var server;
 
 //get port from config
-var port = global._config.port;
+var port = 3000;
 port = normalizePort(port || '3000');
 app.set('port', port);
 
@@ -121,7 +99,7 @@ function onListening() {
 }
 
 
-server = http.createServer(app);
+
 server.timeout = 120 * 1000;
 server.listen(port);
 server.on('listening', onListening);
