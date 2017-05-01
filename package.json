@@ -1,0 +1,29 @@
+{
+  "name": "graph-api-mutant",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "test",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/robpolak/graph-api-mutant.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/robpolak/graph-api-mutant/issues"
+  },
+  "homepage": "https://github.com/robpolak/graph-api-mutant#readme",
+  "dependencies": {
+    "busboy": "^0.2.14",
+    "compression": "^1.6.2",
+    "cookie-parser": "^1.4.3",
+    "express": "^4.15.2"
+  }
+}
