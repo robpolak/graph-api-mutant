@@ -1,12 +1,4 @@
-schema {
-  query: Query
-  mutation: Mutation
+interface Entity {
+  _id: ID!
 }
 
-type Query {
-
-}
-
-type Mutation {
-
-}

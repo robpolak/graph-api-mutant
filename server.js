@@ -5,14 +5,9 @@ const fs = require('fs');
 const busboy = require('connect-busboy');
 const bodyParser = require('body-parser');
 const compression = require('compression');
-
+const http = require('http');
 
 app.set('etag', 'strong')
-
-app.use(function (req, res, next) {
-  req.$__workspaceLoadStart = moment();
-  next();
-});
 
 app.use(compression());
 
@@ -27,32 +22,10 @@ app.use(cookieParser());
 
 //API
 var api = require('./api/api');
-api.initApi(function(err, data) {
-  console.log()
+api.initApi(app, function(err, data) {
+  console.log('Done Loading GraphQL')
 });
 
-
-//Express exception handler
-app.use(function errorHandler(err, req, res, next) {
-  req || (req = {});
-  err || (err = {});
-  res.status(500).send();
-  res.end();
-  var obj = {
-    err: err,
-    path: req.path,
-    user: req.user,
-  };
-  global._logger.logError("Express Uncaught Exception", obj);
-  console.trace(err.stack);
-});
-
-//no routes below this
-app.get('*', function defaultRoute(req, res) {
-  global._logger.logTrace('404 Not Found', req.originalUrl);
-  res.send(404, {error:'notFound'});
-  res.end();
-});
 
 //Still seem to need this in some cases
 process.on('uncaughtException', function (err) {
@@ -94,12 +67,11 @@ function onListening() {
   var bind = typeof addr === 'string'
     ? 'pipe ' + addr
     : 'port ' + addr.port;
-  global._logger.logTrace('Listening on ' + bind, 'HTTP');
   server.setTimeout(680000);
 }
 
 
-
+var server = http.createServer(app);
 server.timeout = 120 * 1000;
 server.listen(port);
 server.on('listening', onListening);
