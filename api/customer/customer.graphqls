@@ -1,0 +1,13 @@
+interface Entity {
+  _id: ID!
+}
+
+type Customer implements Entity {
+  _id: ID!
+  first_name: String!
+  last_name: String!
+}
+
+type Query {
+  customers(limit: Int = 10, skip: Int = 0, sort_field: String = "first_name", sort_direction: String = "asc") : [Customer]
+}

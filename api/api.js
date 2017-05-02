@@ -32,7 +32,7 @@ apiController.prototype.initApi = function(app, cb) {
   }
   app.use('/graphqhl', graphqlHTTP({
     schema: buildSchema(schema),
-    rootValue: root,
+    rootValue: resolver,
     graphiql: true,
   }));
 }
