@@ -1,3 +1,5 @@
+var customerController = require('../../src/controllers/customerController');
+
 var customerApi = function() {
   var self = this;
 };
@@ -6,13 +8,11 @@ var customerApi = function() {
 customerApi.prototype.$__wireResolver = function(resolver) {
   this.resolver = resolver;
   var self = this;
-  this.resolver.customers = (params, request, cb) => self.customers(params, request, cb);
+  this.resolver.customers = (params) => self.customers(params);
 }
 
-customerApi.prototype.customers = async function(params, request, cb) {
-
-  var customers = await
-  request.res.end(200, [{_id: '123', first_name: 'fn', last_name: 'ln'}]);
+customerApi.prototype.customers = function(params) {
+  return customerController.customers(params);
 };
 
 

@@ -35,11 +35,11 @@ apiController.prototype.initApi = function(app, cb) {
     rootValue: resolver,
     graphiql: true,
   }));
-}
+};
 
 
 apiController.prototype.$__getDirectories = function() {
   return fs.readdirSync('./api').filter(file => fs.statSync(path.join('./api', file)).isDirectory())
-}
+};
 
 module.exports = new apiController();

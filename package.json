@@ -8,7 +8,8 @@
   },
   "scripts": {
     "test": "test",
-    "start": "node server.js"
+    "start": "node server.js",
+    "stryker-win": "node_modules\\.bin\\stryker run test\\stryker.conf.js"
   },
   "repository": {
     "type": "git",
@@ -22,10 +23,16 @@
   "homepage": "https://github.com/robpolak/graph-api-mutant#readme",
   "dependencies": {
     "busboy": "^0.2.14",
+    "chai": "^3.5.0",
+    "chai-as-promised": "^6.0.0",
     "compression": "^1.6.2",
     "cookie-parser": "^1.4.3",
     "express": "^4.15.2",
-    "express-graphql": "^0.6.4"
+    "express-graphql": "^0.6.4",
+    "faker": "^4.1.0",
+    "graphql": "^0.9.6",
+    "sinon": "^2.2.0",
+    "underscore": "^1.8.3"
   },
   "devDependencies": {
     "body-parser": "^1.17.1",
@@ -33,6 +40,7 @@
     "mocha": "^3.3.0",
     "stryker": "^0.6.0",
     "stryker-api": "^0.5.0",
+    "stryker-html-reporter": "^0.4.0",
     "stryker-mocha-runner": "^0.3.0"
   }
 }
